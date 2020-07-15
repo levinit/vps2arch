@@ -13,7 +13,7 @@
 # GNU General Public License at <http://www.gnu.org/licenses/> for
 # more details.
 
-set -e
+set -eu
 
 # Gathering informations about actual environment.
 if command -v wget >/dev/null 2>&1; then
@@ -173,6 +173,7 @@ configure_bootloader() {
 			*)		root_devs="${root_devs:+$root_devs }$tmp"	;;
 			esac
 		done
+		mkdir -p /boot/grub
 		grub-mkconfig > /boot/grub/grub.cfg
 		for root_dev in $root_devs; do
 			grub-install --target=i386-pc --recheck --force "$root_dev"
