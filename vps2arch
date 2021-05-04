@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Copyright 2015, Timothy Redaelli <tredaelli@archlinux.info>
+# 2021, levinit <https://github.com/levinit>
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -97,6 +98,9 @@ configure_chroot() {
 		# Use my repository for OpenVZ-patched systemd
 		sed -i 's;^#\[testing\]$;[tredaelli-systemd]\nServer = http://pkgbuild.com/~tredaelli/repo/systemd/$arch\n\n&;' "/root.$cpu_type/etc/pacman.conf"
 	fi
+
+	#set default locale
+	chroot_exec 'sed -i "/#en_US.UTF-8 UTF-8/ s/#//" /etc/locale.gen && locale-gen'
 }
 
 save_root_pass() {
